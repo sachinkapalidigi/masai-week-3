@@ -1,0 +1,97 @@
+#container {
+    display: grid;
+    grid-template-rows: repeat(8,100px);    
+    grid-template-columns: repeat(8,100px);
+    border: 5px solid burlywood;
+    width: 800px;    
+    margin: auto;
+}
+#conatainer div {
+    /* border: 1px solid black; */
+}
+.black-background {
+    background: burlywood;
+}
+
+.white-background {
+    background: white;
+}
+
+#errorDiv {
+    color: red;
+}
+
+#player1Display,#player2Display {
+    text-align: center;    
+}
+
+#player1Display {
+    color: lightseagreen;    
+}
+
+#player2Display {
+    color: orange;
+}
+
+#turn {
+    color: chartreuse;
+}
+
+/* Pawns Styling */
+#container div>div{
+    width: 60px;
+    height: 60px;
+    margin: 15px auto;    
+}
+
+#WS2,#WS1,#WS3,#WS4,#WS5,#WS6,#WS7,#WS8 {
+    content: url('./whitesoldier.png');
+}
+
+#WE1,#WE2 {    
+    content: url('./whiteelephant.png');
+}
+
+#WH1,#WH2 {
+    content: url('./whitehorse.png');
+}
+
+#WCW,#WCB {
+    content: url('./whitecamel.png')
+}
+
+#WQ {
+    content: url('./whitequeen.png')
+}
+
+#WK {
+    content: url('./whiteking.png')
+}
+
+/*BLACK PAWNS  */
+
+#BS2,#BS1,#BS3,#BS4,#BS5,#BS6,#BS7,#BS8 {
+    content: url('./blacksoldier.png');
+}
+
+#BE1,#BE2 {
+    content: url('./blackelephant.png');
+}
+
+#BH1,#BH2 {    
+    content: url('./blackhorse.png');   
+}
+
+
+#BCW,#BCB {
+    content: url('./blackcamel.png');
+}
+
+#BQ {
+    content: url('./balckqueen.png');    
+}
+
+#BK {
+    content: url('./blackking.png');
+}
+
