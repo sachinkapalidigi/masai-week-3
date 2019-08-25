@@ -280,7 +280,7 @@ function soldierCheck(params) {
             }
         } else {            
             //current position is in any other position 
-            if (dest == 'n' || dest[0]=='e') {
+            if (dest[0] == 'n' || dest[0]=='e') {
                 if (destPos == currentPosition-8) {
                     return true;
                 } else {
