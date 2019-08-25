@@ -100,8 +100,7 @@ function moveEl() {
     setPositionsNull();
     resetAllIds();
     togglePlayer();
-    setErrorNull();
-    console.log(initBoard);   
+    setErrorNull();    
 }
 
 function createSpan() {
@@ -132,7 +131,7 @@ function getPosition(value,arryName){
     
     for(var i=0; i<arryName.length; i++){
         if(arryName[i] === value){
-            return i;
+            return i+"";
         }
     }
     return false;
@@ -173,9 +172,7 @@ function setErrorNull(){
 }
 
 function validateMove(){
-    console.log(source,dest);
-    console.log(getPosition(source, initBoard));
-    console.log(getPosition(dest, initBoard));
+    
     //general rules for all pawns
     if (dest[0] == source[0]) {
         //killing own pawn not allowed
@@ -195,7 +192,7 @@ function validateMove(){
                 return true;
                 break;
             case 'C':
-                return true;                
+                return camelCheck();                
                 break;
             case 'H':
                 return horseCheck();
@@ -220,7 +217,7 @@ function validateMove(){
                 return true;
                 break;
             case 'C':
-                return true;                
+                return camelCheck();                
                 break;
             case 'H':
                 return horseCheck();
@@ -247,7 +244,7 @@ function validateMove(){
 function soldierCheck(params) {
     var currentPosition = sourcePos;    
     if (params == 'B') {        
-        var initialPosition = getPosition(source,initBlackPawns)+48;
+        var initialPosition = Number(getPosition(source,initBlackPawns))+48;
         //IF pawn is in initial position
         if (currentPosition == initialPosition) {
             if (destPos == initialPosition-8) {
@@ -308,7 +305,7 @@ function soldierCheck(params) {
             
         }
     } else if (params == 'W') {        
-        var initialPosition = getPosition(source,initWhitePawns);        
+        var initialPosition = Number(getPosition(source,initWhitePawns));        
         //IF pawn is in initial position
         if (currentPosition == initialPosition) {            
             if (destPos == initialPosition+8) {
@@ -396,6 +393,78 @@ function horseCheck(){
             return false;
         } else {
             return true;
+        }
+    }
+}
+
+function camelCheck() {
+    var currentPosition = sourcePos;
+    var leftExtremes = [0,8,16,24,32,40,48,56];
+    var rightExtremes = [7,15,23,31,39,47,55,63];
+    var path1 = [];
+    var path2 = [];
+    var path3 = [];
+    var path4 = [];
+    
+    var el = currentPosition;
+    while ((el>=0) && (el<=63)) {
+        if(getPosition(el,rightExtremes)){
+            break;
+        }
+        el = el - 7;
+        path1.push(el);
+    }
+    el = currentPosition;
+    while ((el>=0) && (el<=63)) {
+        if(getPosition(el,rightExtremes)){
+            break;
+        }
+        el = el + 9;
+        path2.push(el);
+    }
+    el = currentPosition;
+    while ((el>=0) && (el<=63)) {
+        if(getPosition(el,leftExtremes)){
+            break;
+        }
+        el = el + 7;
+        path3.push(el);
+    }
+    el = currentPosition;
+    while ((el>=0) && (el<=63)) {
+        if(getPosition(el,leftExtremes)){
+            break;
+        }
+        el = el - 9;
+        path4.push(el);
+    }
+    el = currentPosition;
+
+    console.log(path1,path2,path3,path4);
+
+    if (getPosition(destPos,path1)) {
+        return pawnInBetween(destPos,path1);
+    } else if (getPosition(destPos,path2)) {
+        return pawnInBetween(destPos,path2);
+    } else if (getPosition(destPos,path3)) {
+        return pawnInBetween(destPos,path3);
+    } else if (getPosition(destPos,path4)) {
+        return pawnInBetween(destPos,path4);
+    } else {
+        return false;
+    }
+
+}
+
+function pawnInBetween(destination,arrayName) {
+    console.log(destination,'here2',arrayName);
+    for (var index = 0; index < arrayName.length; index++) {
+        if (arrayName[index] == destination) {
+            return true;
+        } else {
+            if ((initBoard[arrayName[index]][0] == 'W') || (initBoard[arrayName[index]][0] == 'B')) {
+                return false;
+            }
         }
     }
 }
