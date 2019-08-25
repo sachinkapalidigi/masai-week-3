@@ -198,7 +198,7 @@ function validateMove(){
                 return true;                
                 break;
             case 'H':
-                return true;
+                return horseCheck();
                 break;
             case 'E':
                 return true;
@@ -223,7 +223,7 @@ function validateMove(){
                 return true;                
                 break;
             case 'H':
-                return true;
+                return horseCheck();
                 break;
             case 'E':
                 return true;
@@ -371,3 +371,31 @@ function soldierCheck(params) {
     }
 }
 
+function horseCheck(){
+    var cP = sourcePos;
+    var availableMoves = [cP+17, cP+15, cP+10, cP+6, cP-17, cP-15, cP-6, cP-10];
+    var leftExtremes = [0,8,16,24,32,40,48,56];
+    var rightExtremes = [7,15,23,31,39,47,55,63];
+    var leftExtremesMoves = [cP+17,cP+10,cP-15,cP-6];
+    var rightExtremesMoves = [cP+15,cP+6,cP-17,cP-10];
+    
+    if (getPosition(cP,leftExtremes)) {
+        if (!getPosition(destPos,leftExtremesMoves)) {
+            return false;
+        } else {
+            return true;
+        }
+    } else if (getPosition(cP,rightExtremes)) {
+        if (!getPosition(destPos,rightExtremesMoves)) {
+            return false;
+        } else {
+            return true;
+        }
+    } else {
+        if (!getPosition(destPos,availableMoves)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+}
