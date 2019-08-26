@@ -189,7 +189,7 @@ function validateMove(){
                 return soldierCheck('B');                
                 break;
             case 'K':
-                return true;
+                return kingCheck();
                 break;
             case 'C':
                 return camelCheck();                
@@ -214,7 +214,7 @@ function validateMove(){
                 return soldierCheck('W');                
                 break;
             case 'K':
-                return true;
+                return kingCheck();
                 break;
             case 'C':
                 return camelCheck();                
