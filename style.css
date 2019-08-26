@@ -9,12 +9,27 @@
 #conatainer div {
     /* border: 1px solid black; */
 }
+
 .black-background {
     background: burlywood;
 }
 
+.float-left {
+    float:left;
+}
+
 .white-background {
     background: white;
+}
+
+#killed-pawns {
+    width: 500px;
+}
+
+#killed-pawns div {
+    width: 30px;
+    height: 30px;
+    float: left;
 }
 
 #errorDiv {

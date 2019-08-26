@@ -7,6 +7,7 @@ var emptyArray1 = ['ev1','ev2','ev3','ev4','ev5','ev6','ev7','ev8'];
 var emptyArray2 = ['ev9','ev10','ev11','ev12','ev13','ev14','ev15','ev16'];
 var emptyArray3 = ['ev17','ev18','ev19','ev20','ev21','ev22','ev23','ev24'];
 var emptyArray4 = ['ev25','ev26','ev27','ev28','ev29','ev30','ev31','ev32'];
+var killedPawns = [];
 var initBoard = [...initWhitePawns,...emptyArray1,...emptyArray2,...emptyArray3,...emptyArray4,...initBlackPawns];
 createSpan();
 var palyer1 = '';
@@ -96,7 +97,10 @@ function moveEl() {
         initBoard[sourcePos] = 'nm'+totalMoves;
     }    
     initBoard[destPos] = source;
-
+    if (dest[0]=='W'||dest[0]=='B') {
+        killedPawns.push(dest);
+        createKilled();
+    }
     setPositionsNull();
     resetAllIds();
     togglePlayer();
@@ -524,20 +528,43 @@ function kingCheck() {
     var bottomRow = [56,57,58,59,60,61,62,63]
     var el = currentPosition;
     var availableMoves = []
+    
     if (!getPosition(el,leftExtremes)) {
-        availableMoves.push(currentPosition-1)
-    } else if (!getPosition(el,rightExtremes)) {
+        availableMoves.push(currentPosition-1);
+        availableMoves.push(currentPosition-9);
+        availableMoves.push(currentPosition+7);
+    } 
+    
+    if (!getPosition(el,rightExtremes)) {
         availableMoves.push(currentPosition+1);
-    } else if (!getPosition(el,topRow)) {
+        availableMoves.push(currentPosition-7);
+        availableMoves.push(currentPosition+9);
+    }
+    
+    if (!getPosition(el,topRow)) {
         availableMoves.push(currentPosition-8);
-    } else if (!getPosition(el,bottomRow)) {
+    }
+    
+    if (!getPosition(el,bottomRow)) {
         availableMoves.push(currentPosition+8);
     }
-
+    
     if (!getPosition(destPos,availableMoves)) {
         return false;
     } else {
         return true;
     }
 
+}
+
+
+
+function createKilled() {
+    var killedContainer = document.getElementById('killed-pawns');
+    killedContainer.innerHTML = '';
+    for (var key in killedPawns) {
+        var divEl = document.createElement('div');
+        assignId(killedPawns[key],divEl);
+        killedContainer.appendChild(divEl);        
+    }
 }
