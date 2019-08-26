@@ -198,10 +198,10 @@ function validateMove(){
                 return horseCheck();
                 break;
             case 'E':
-                return true;
+                return elephantCheck();
                 break;
             case 'Q':
-                return true;
+                return (camelCheck() || elephantCheck());
                 break;
             default:
                 return true;
@@ -223,10 +223,10 @@ function validateMove(){
                 return horseCheck();
                 break;
             case 'E':
-                return true;
+                return elephantCheck();
                 break;
             case 'Q':
-                return true;
+                return (camelCheck() || elephantCheck());
                 break;
             default:
                 return true;                
@@ -439,8 +439,7 @@ function camelCheck() {
         path4.push(el);
     }
     el = currentPosition;
-
-    console.log(path1,path2,path3,path4);
+    
 
     if (getPosition(destPos,path1)) {
         return pawnInBetween(destPos,path1);
@@ -457,7 +456,6 @@ function camelCheck() {
 }
 
 function pawnInBetween(destination,arrayName) {
-    console.log(destination,'here2',arrayName);
     for (var index = 0; index < arrayName.length; index++) {
         if (arrayName[index] == destination) {
             return true;
@@ -467,4 +465,79 @@ function pawnInBetween(destination,arrayName) {
             }
         }
     }
+}
+
+function elephantCheck() {
+    var currentPosition = sourcePos;
+    var leftExtremes = [0,8,16,24,32,40,48,56];
+    var rightExtremes = [7,15,23,31,39,47,55,63];
+    var path1 = [];
+    var path2 = [];
+    var path3 = [];
+    var path4 = [];
+    
+    var el = currentPosition;
+    while ((el>=0) && (el<=63)) {        
+        el = el - 8;
+        path1.push(el);
+    }
+    el = currentPosition;
+    while ((el>=0) && (el<=63)) {
+        if(getPosition(el,rightExtremes)){
+            break;
+        }
+        el = el + 1;
+        path2.push(el);
+    }
+    el = currentPosition;
+    while ((el>=0) && (el<=63)) {
+        el = el + 8;
+        path3.push(el);
+    }
+    el = currentPosition;
+    while ((el>=0) && (el<=63)) {
+        if(getPosition(el,leftExtremes)){
+            break;
+        }
+        el = el - 1;
+        path4.push(el);
+    }
+    el = currentPosition;
+    if (getPosition(destPos,path1)) {
+        return pawnInBetween(destPos,path1);
+    } else if (getPosition(destPos,path2)) {
+        return pawnInBetween(destPos,path2);
+    } else if (getPosition(destPos,path3)) {
+        return pawnInBetween(destPos,path3);
+    } else if (getPosition(destPos,path4)) {
+        return pawnInBetween(destPos,path4);
+    } else {
+        return false;
+    }
+}
+
+function kingCheck() {
+    var currentPosition = sourcePos;
+    var leftExtremes = [0,8,16,24,32,40,48,56];
+    var rightExtremes = [7,15,23,31,39,47,55,63];
+    var topRow = [0,1,2,3,4,5,6,7];
+    var bottomRow = [56,57,58,59,60,61,62,63]
+    var el = currentPosition;
+    var availableMoves = []
+    if (!getPosition(el,leftExtremes)) {
+        availableMoves.push(currentPosition-1)
+    } else if (!getPosition(el,rightExtremes)) {
+        availableMoves.push(currentPosition+1);
+    } else if (!getPosition(el,topRow)) {
+        availableMoves.push(currentPosition-8);
+    } else if (!getPosition(el,bottomRow)) {
+        availableMoves.push(currentPosition+8);
+    }
+
+    if (!getPosition(destPos,availableMoves)) {
+        return false;
+    } else {
+        return true;
+    }
+
 }
